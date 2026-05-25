@@ -2,7 +2,7 @@
 
 ## Fase 1 - Repositorio E Contexto
 
-Status: em andamento.
+Status: concluida.
 
 Entregas:
 
@@ -14,6 +14,8 @@ Entregas:
 
 ## Fase 2 - Scaffold Expo Android
 
+Status: concluida.
+
 Entregas:
 
 - criar app Expo com TypeScript;
@@ -22,6 +24,8 @@ Entregas:
 - configurar tema visual inicial;
 - criar `.env.example`;
 - preparar scripts de dev/build.
+
+Observacao: a base foi validada com lint, typecheck, audit, `expo install --check` e `expo-doctor`.
 
 ## Fase 3 - Auth E Sessao
 
@@ -64,4 +68,3 @@ Entregas:
 - smoke test em aparelho Android;
 - checklist de publicacao;
 - plano de rollout controlado.
-

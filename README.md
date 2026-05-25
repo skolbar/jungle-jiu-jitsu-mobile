@@ -6,9 +6,17 @@ Este repositorio e separado da aplicacao web para manter o mobile isolado, priva
 
 ## Status
 
-Fase atual: **Fase 1 - repositorio e base de contexto**.
+Fase atual: **Fase 2 concluida - scaffold Expo Android**.
 
-Esta fase cria a base do projeto mobile. O app Expo/React Native sera criado na proxima fase.
+O projeto ja possui base Expo com TypeScript e Expo Router. A autenticacao real com Supabase sera implementada na Fase 3.
+
+Validacoes da fase 2:
+
+- `npm run lint`
+- `npm run typecheck`
+- `npm audit --audit-level=moderate`
+- `npx expo install --check`
+- `npm run doctor`
 
 ## Objetivo Inicial
 
@@ -50,3 +58,27 @@ Prioridades mobile:
 - Funcoes administrativas sensiveis devem passar por endpoints server-side seguros.
 - Producao web e banco de producao nao devem ser alterados sem validacao explicita.
 
+## Desenvolvimento
+
+Requisito de runtime:
+
+- Node.js `22.13+` ou `24.3+`, conforme requisito atual do React Native/Metro usado pelo Expo.
+
+Comandos:
+
+```bash
+npm install
+npm run start
+npm run android
+npm run lint
+npm run typecheck
+npm run doctor
+```
+
+Variaveis:
+
+```bash
+cp .env.example .env
+```
+
+Somente variaveis com prefixo `EXPO_PUBLIC_` ficam disponiveis no app. Nao coloque segredos privados nelas.

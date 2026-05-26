@@ -74,3 +74,18 @@ npm run build:android:production
 ## Rollout
 
 Usar primeiro o perfil `preview` e distribuir apenas para testadores internos. O perfil `production` deve ser usado somente depois do aceite do dono da ferramenta.
+
+## Primeiro Build Preview
+
+Build Android interno gerado em 2026-05-26:
+
+- EAS project: `@skolbar/jungle-jiu-jitsu-mobile`
+- EAS project ID: `0b7449e8-da68-4041-9774-832cc0d57189`
+- Build ID: `51bc610a-e57e-490b-b082-f503ff2e80d2`
+- Perfil: `preview`
+- Plataforma: Android
+- Status: `FINISHED`
+- Artefato: `https://expo.dev/artifacts/eas/b6pamqh8HxbzeNEagJUMZU.apk`
+- Expira em: 2026-06-09
+
+Este APK e apenas para teste interno. Antes de qualquer distribuicao ampla, validar login, abas, leitura de dados, logout e reabertura em aparelho Android fisico.

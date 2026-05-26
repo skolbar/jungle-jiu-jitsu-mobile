@@ -1,4 +1,5 @@
 import { ActivityIndicator, Linking, Pressable, ScrollView, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { Text, View } from '@/components/Themed';
@@ -41,6 +42,7 @@ export default function ContentsScreen() {
   const moduleSlugs = useMemo(() => Object.keys(grouped).sort(), [grouped]);
   const activeModule = selectedModule ?? moduleSlugs[0] ?? null;
   const selectedContents = activeModule ? grouped[activeModule] ?? [] : [];
+  const isAdmin = profile?.role === 'admin';
 
   async function openContent(url: string | null) {
     if (!url) {
@@ -54,100 +56,111 @@ export default function ContentsScreen() {
   }
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Conteudos</Text>
-        <Text style={styles.subtitle}>{contents.length} aula(s) cadastrada(s)</Text>
-      </View>
+    <SafeAreaView style={styles.safeArea} edges={['top']}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.title}>Conteudos</Text>
+          <Text style={styles.subtitle}>{contents.length} aula(s) cadastrada(s)</Text>
+        </View>
 
-      {error ? <Text style={styles.errorText}>{error}</Text> : null}
+        {error ? <Text style={styles.errorText}>{error}</Text> : null}
 
-      <Pressable accessibilityRole="button" onPress={loadContents} style={styles.refreshButton}>
-        <Text style={styles.refreshButtonText}>Atualizar</Text>
-      </Pressable>
+        <Pressable accessibilityRole="button" onPress={loadContents} style={styles.refreshButton}>
+          <Text style={styles.refreshButtonText}>Atualizar</Text>
+        </Pressable>
 
-      {loading ? (
-        <ActivityIndicator color="#D7262E" />
-      ) : (
-        <>
-          <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.moduleScroller}>
-            {moduleSlugs.map((slug) => {
-              const selected = slug === activeModule;
-              return (
-                <Pressable
-                  accessibilityRole="button"
-                  key={slug}
-                  onPress={() => setSelectedModule(slug)}
-                  style={[styles.moduleChip, selected && styles.moduleChipSelected]}>
-                  <Text style={[styles.moduleChipText, selected && styles.moduleChipTextSelected]}>
-                    {formatModuleTitle(slug)}
-                  </Text>
-                </Pressable>
-              );
-            })}
-          </ScrollView>
-
-          {activeModule ? (
-            <View style={styles.moduleHeader}>
-              <Text style={styles.moduleTitle}>{formatModuleTitle(activeModule)}</Text>
-              <Text style={styles.moduleDescription}>{getModuleDescription(activeModule)}</Text>
-            </View>
-          ) : null}
-
-          <View style={styles.list}>
-            {selectedContents.map((content) => {
-              const unlocked = profile ? canAccessByGraduation(profile, content.required_belt, content.required_degree) : false;
-              return (
-                <View key={content.id} style={[styles.item, !unlocked && styles.itemLocked]}>
-                  <View style={styles.itemHeader}>
-                    <Text style={styles.itemCategory}>{content.category || 'Geral'}</Text>
-                    <Text style={styles.itemLock}>{unlocked ? 'Disponivel' : 'Bloqueado'}</Text>
-                  </View>
-                  <Text style={styles.itemTitle}>{content.title}</Text>
-                  {content.description ? <Text style={styles.itemDescription}>{content.description}</Text> : null}
-                  <Text style={styles.itemRequirement}>
-                    {getBeltName(content.required_belt)}
-                    {content.required_degree > 0 ? ` - grau ${content.required_degree}` : ''}
-                  </Text>
+        {loading ? (
+          <ActivityIndicator color="#D7262E" />
+        ) : (
+          <>
+            <ScrollView horizontal showsHorizontalScrollIndicator={false} style={styles.moduleScroller}>
+              {moduleSlugs.map((slug) => {
+                const selected = slug === activeModule;
+                return (
                   <Pressable
                     accessibilityRole="button"
-                    disabled={!unlocked || !content.url}
-                    onPress={() => openContent(content.url)}
-                    style={[styles.openButton, (!unlocked || !content.url) && styles.openButtonDisabled]}>
-                    <Text style={styles.openButtonText}>{unlocked ? 'Abrir conteudo' : 'Indisponivel'}</Text>
+                    key={slug}
+                    onPress={() => setSelectedModule(slug)}
+                    style={[styles.moduleChip, selected && styles.moduleChipSelected]}>
+                    <Text style={[styles.moduleChipText, selected && styles.moduleChipTextSelected]}>
+                      {formatModuleTitle(slug)}
+                    </Text>
                   </Pressable>
-                </View>
-              );
-            })}
+                );
+              })}
+            </ScrollView>
 
-            {contents.length === 0 ? (
-              <View style={styles.emptyCard}>
-                <Text style={styles.emptyTitle}>Nenhum conteudo encontrado</Text>
+            {activeModule ? (
+              <View style={styles.moduleHeader}>
+                <Text style={styles.moduleTitle}>{formatModuleTitle(activeModule)}</Text>
+                <Text style={styles.moduleDescription}>{getModuleDescription(activeModule)}</Text>
               </View>
             ) : null}
-          </View>
-        </>
-      )}
-    </ScrollView>
+
+            <View style={styles.list}>
+              {selectedContents.map((content) => {
+                const unlocked = isAdmin || (profile ? canAccessByGraduation(profile, content.required_belt, content.required_degree) : false);
+                return (
+                  <View key={content.id} style={[styles.item, !unlocked && styles.itemLocked]}>
+                    <View style={[styles.itemHeader, !unlocked && styles.itemHeaderLocked]}>
+                      <Text style={[styles.itemCategory, !unlocked && styles.lockedText]}>{content.category || 'Geral'}</Text>
+                      <Text style={styles.itemLock}>{unlocked ? 'Disponivel' : 'Bloqueado'}</Text>
+                    </View>
+                    <Text style={[styles.itemTitle, !unlocked && styles.lockedTitle]}>{content.title}</Text>
+                    {content.description ? (
+                      <Text style={[styles.itemDescription, !unlocked && styles.lockedText]}>{content.description}</Text>
+                    ) : null}
+                    <Text style={[styles.itemRequirement, !unlocked && styles.lockedText]}>
+                      {getBeltName(content.required_belt)}
+                      {content.required_degree > 0 ? ` - grau ${content.required_degree}` : ''}
+                    </Text>
+                    <Pressable
+                      accessibilityRole="button"
+                      disabled={!unlocked || !content.url}
+                      onPress={() => openContent(content.url)}
+                      style={[styles.openButton, (!unlocked || !content.url) && styles.openButtonDisabled]}>
+                      <Text style={styles.openButtonText}>{unlocked ? 'Abrir conteudo' : 'Indisponivel'}</Text>
+                    </Pressable>
+                  </View>
+                );
+              })}
+
+              {contents.length === 0 ? (
+                <View style={styles.emptyCard}>
+                  <Text style={styles.emptyTitle}>Nenhum conteudo encontrado</Text>
+                </View>
+              ) : null}
+            </View>
+          </>
+        )}
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#111111',
+  },
   container: {
     flexGrow: 1,
     gap: 18,
     paddingHorizontal: 24,
-    paddingVertical: 34,
+    paddingBottom: 34,
+    paddingTop: 18,
   },
   header: {
     gap: 4,
+    backgroundColor: '#111111',
   },
   title: {
+    color: '#FFFFFF',
     fontSize: 30,
     fontWeight: '800',
   },
   subtitle: {
-    color: '#6B7280',
+    color: '#9CA3AF',
     fontSize: 15,
   },
   refreshButton: {
@@ -207,6 +220,7 @@ const styles = StyleSheet.create({
   },
   list: {
     gap: 12,
+    backgroundColor: '#111111',
   },
   item: {
     gap: 10,
@@ -215,13 +229,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#FFFFFF',
   },
   itemLocked: {
-    opacity: 0.62,
+    backgroundColor: '#F3F4F6',
   },
   itemHeader: {
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between',
     backgroundColor: '#FFFFFF',
+  },
+  itemHeaderLocked: {
+    backgroundColor: '#F3F4F6',
   },
   itemCategory: {
     color: '#6B7280',
@@ -232,6 +249,12 @@ const styles = StyleSheet.create({
     color: '#D7262E',
     fontSize: 13,
     fontWeight: '800',
+  },
+  lockedTitle: {
+    color: '#4B5563',
+  },
+  lockedText: {
+    color: '#6B7280',
   },
   itemTitle: {
     color: '#151515',

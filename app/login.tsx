@@ -52,7 +52,7 @@ export default function LoginScreen() {
 
           <View style={styles.heading}>
             <Text style={styles.title}>Jungle Jiu-Jitsu</Text>
-            <Text style={styles.subtitle}>Entrar no app do aluno</Text>
+            <Text style={styles.subtitle}>Entrar no aplicativo</Text>
           </View>
 
           {!isConfigured ? (

@@ -1,4 +1,5 @@
 import { Image, Pressable, ScrollView, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 import { Text, View } from '@/components/Themed';
 import { useAuth } from '@/contexts/auth';
@@ -17,40 +18,52 @@ function initials(name: string | null | undefined) {
 export default function ProfileScreen() {
   const { profile, refreshProfile, signOut, user } = useAuth();
   const displayName = profile?.full_name ?? user?.email ?? 'Aluno';
+  const isAdmin = profile?.role === 'admin';
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.header}>
-        {profile?.avatar_url ? (
-          <Image source={{ uri: profile.avatar_url }} style={styles.avatarImage} />
-        ) : (
-          <View style={styles.avatarFallback}>
-            <Text style={styles.avatarText}>{initials(displayName)}</Text>
-          </View>
-        )}
+    <SafeAreaView style={styles.safeArea} edges={['top']}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.header}>
+          {profile?.avatar_url ? (
+            <Image source={{ uri: profile.avatar_url }} style={styles.avatarImage} />
+          ) : (
+            <View style={[styles.avatarFallback, isAdmin && styles.adminAvatarFallback]}>
+              <Text style={styles.avatarText}>{isAdmin ? 'J' : initials(displayName)}</Text>
+            </View>
+          )}
 
-        <Text style={styles.title}>{displayName}</Text>
-        <Text style={styles.subtitle}>
-          {profile ? `Faixa ${getBeltName(profile.belt)} - grau ${profile.degree}` : 'Perfil do aluno'}
-        </Text>
-      </View>
+          <Text style={styles.title}>{displayName}</Text>
+          <Text style={styles.subtitle}>
+            {isAdmin
+              ? 'Administrador'
+              : profile
+                ? `Faixa ${getBeltName(profile.belt)} - grau ${profile.degree}`
+                : 'Perfil do aluno'}
+          </Text>
+        </View>
 
-      <View style={styles.card}>
-        <Row label="Email" value={profile?.email ?? user?.email ?? '--'} />
-        <Row label="Membro desde" value={formatDate(profile?.created_at)} />
-        <Row label="Total de aulas" value={profile ? String(profile.total_classes) : '--'} />
-        <Row label="Aulas no ciclo" value={profile ? String(profile.cycle_classes) : '--'} />
-        <Row label="Faixa e grau bloqueados" value={profile?.belt_locked ? 'Sim' : 'Nao'} />
-      </View>
+        <View style={styles.card}>
+          <Row label="Email" value={profile?.email ?? user?.email ?? '--'} />
+          <Row label="Perfil" value={isAdmin ? 'Administrador' : 'Aluno'} />
+          <Row label="Membro desde" value={formatDate(profile?.created_at)} />
+          {isAdmin ? null : (
+            <>
+              <Row label="Total de aulas" value={profile ? String(profile.total_classes) : '--'} />
+              <Row label="Aulas no ciclo" value={profile ? String(profile.cycle_classes) : '--'} />
+              <Row label="Faixa e grau bloqueados" value={profile?.belt_locked ? 'Sim' : 'Nao'} />
+            </>
+          )}
+        </View>
 
-      <Pressable accessibilityRole="button" onPress={refreshProfile} style={styles.secondaryButton}>
-        <Text style={styles.secondaryButtonText}>Atualizar perfil</Text>
-      </Pressable>
+        <Pressable accessibilityRole="button" onPress={refreshProfile} style={styles.secondaryButton}>
+          <Text style={styles.secondaryButtonText}>Atualizar perfil</Text>
+        </Pressable>
 
-      <Pressable accessibilityRole="button" onPress={signOut} style={styles.primaryButton}>
-        <Text style={styles.primaryButtonText}>Sair</Text>
-      </Pressable>
-    </ScrollView>
+        <Pressable accessibilityRole="button" onPress={signOut} style={styles.primaryButton}>
+          <Text style={styles.primaryButtonText}>Sair</Text>
+        </Pressable>
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
@@ -64,15 +77,21 @@ function Row({ label, value }: { label: string; value: string }) {
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#111111',
+  },
   container: {
     flexGrow: 1,
     gap: 18,
     paddingHorizontal: 24,
-    paddingVertical: 34,
+    paddingBottom: 34,
+    paddingTop: 18,
   },
   header: {
     alignItems: 'center',
     gap: 8,
+    backgroundColor: '#111111',
   },
   avatarImage: {
     width: 92,
@@ -87,19 +106,22 @@ const styles = StyleSheet.create({
     borderRadius: 46,
     backgroundColor: '#D7262E',
   },
+  adminAvatarFallback: {
+    borderRadius: 8,
+  },
   avatarText: {
     color: '#FFFFFF',
     fontSize: 28,
     fontWeight: '800',
   },
   title: {
-    color: '#151515',
+    color: '#FFFFFF',
     fontSize: 28,
     fontWeight: '800',
     textAlign: 'center',
   },
   subtitle: {
-    color: '#6B7280',
+    color: '#9CA3AF',
     fontSize: 15,
     textAlign: 'center',
   },

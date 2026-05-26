@@ -1,4 +1,5 @@
 import { ActivityIndicator, Pressable, ScrollView, StyleSheet } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { useCallback, useEffect, useState } from 'react';
 
 import { Text, View } from '@/components/Themed';
@@ -34,57 +35,66 @@ export default function AnnouncementsScreen() {
   }, [loadAnnouncements]);
 
   return (
-    <ScrollView contentContainerStyle={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.title}>Comunicados</Text>
-        <Text style={styles.subtitle}>Novidades da academia</Text>
-      </View>
-
-      {error ? <Text style={styles.errorText}>{error}</Text> : null}
-
-      <Pressable accessibilityRole="button" onPress={loadAnnouncements} style={styles.refreshButton}>
-        <Text style={styles.refreshButtonText}>Atualizar</Text>
-      </Pressable>
-
-      {loading ? (
-        <ActivityIndicator color="#D7262E" />
-      ) : (
-        <View style={styles.list}>
-          {announcements.map((announcement) => (
-            <View key={announcement.id} style={styles.item}>
-              <Text style={styles.itemDate}>{formatDate(announcement.created_at)}</Text>
-              <Text style={styles.itemTitle}>{announcement.title}</Text>
-              <Text style={styles.itemMessage}>{announcement.message}</Text>
-            </View>
-          ))}
-
-          {announcements.length === 0 ? (
-            <View style={styles.emptyCard}>
-              <Text style={styles.emptyTitle}>Nenhum comunicado publicado</Text>
-            </View>
-          ) : null}
+    <SafeAreaView style={styles.safeArea} edges={['top']}>
+      <ScrollView contentContainerStyle={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.title}>Comunicados</Text>
+          <Text style={styles.subtitle}>Novidades da academia</Text>
         </View>
-      )}
-    </ScrollView>
+
+        {error ? <Text style={styles.errorText}>{error}</Text> : null}
+
+        <Pressable accessibilityRole="button" onPress={loadAnnouncements} style={styles.refreshButton}>
+          <Text style={styles.refreshButtonText}>Atualizar</Text>
+        </Pressable>
+
+        {loading ? (
+          <ActivityIndicator color="#D7262E" />
+        ) : (
+          <View style={styles.list}>
+            {announcements.map((announcement) => (
+              <View key={announcement.id} style={styles.item}>
+                <Text style={styles.itemDate}>{formatDate(announcement.created_at)}</Text>
+                <Text style={styles.itemTitle}>{announcement.title}</Text>
+                <Text style={styles.itemMessage}>{announcement.message}</Text>
+              </View>
+            ))}
+
+            {announcements.length === 0 ? (
+              <View style={styles.emptyCard}>
+                <Text style={styles.emptyTitle}>Nenhum comunicado publicado</Text>
+              </View>
+            ) : null}
+          </View>
+        )}
+      </ScrollView>
+    </SafeAreaView>
   );
 }
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: '#111111',
+  },
   container: {
     flexGrow: 1,
     gap: 18,
     paddingHorizontal: 24,
-    paddingVertical: 34,
+    paddingBottom: 34,
+    paddingTop: 18,
   },
   header: {
     gap: 4,
+    backgroundColor: '#111111',
   },
   title: {
+    color: '#FFFFFF',
     fontSize: 30,
     fontWeight: '800',
   },
   subtitle: {
-    color: '#6B7280',
+    color: '#9CA3AF',
     fontSize: 15,
   },
   refreshButton: {
@@ -103,6 +113,7 @@ const styles = StyleSheet.create({
   },
   list: {
     gap: 12,
+    backgroundColor: '#111111',
   },
   item: {
     gap: 8,
@@ -138,7 +149,7 @@ const styles = StyleSheet.create({
     fontWeight: '800',
   },
   errorText: {
-    color: '#B91C1C',
+    color: '#FCA5A5',
     fontSize: 14,
   },
 });

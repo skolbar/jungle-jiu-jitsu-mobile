@@ -74,7 +74,7 @@ Observacao: esta fase depende de alinhamento com o dono da ferramenta sobre regr
 
 ## Fase 6 - Build Android E Validacao
 
-Status: preparada.
+Status: concluida inicialmente.
 
 Entregas:
 
@@ -83,4 +83,19 @@ Entregas:
 - checklist de publicacao;
 - plano de rollout controlado.
 
-Observacao: `eas.json` foi configurado com `preview` em APK interno e `production` em AAB. O build real depende de conta Expo/EAS e variaveis Supabase publicas nos ambientes EAS.
+Observacao: `eas.json` foi configurado com `preview` em APK interno e `production` em AAB. O primeiro APK preview foi gerado com EAS.
+
+## Fase 6.1 - Ajustes Do APK E Admin Mobile
+
+Status: em validacao.
+
+Entregas:
+
+- separar a experiencia mobile de admin e aluno por `profile.role`;
+- adicionar painel admin mobile em leitura;
+- adicionar lista de alunos para admin em leitura;
+- corrigir contraste de cards em modo escuro Android;
+- corrigir safe area no topo do Android;
+- encurtar rotulos da navegacao inferior para evitar truncamento.
+
+Observacao: a area admin desta fase e conservadora e nao executa criacao, remocao ou alteracao de alunos. Acoes administrativas sensiveis devem ser avaliadas em fase propria.

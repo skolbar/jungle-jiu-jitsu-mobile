@@ -3,31 +3,49 @@ import { Text } from 'react-native';
 
 import Colors from '@/constants/Colors';
 import { useColorScheme } from '@/components/useColorScheme';
+import { useAuth } from '@/contexts/auth';
 
 export default function TabLayout() {
   const colorScheme = useColorScheme();
+  const { profile } = useAuth();
+  const isAdmin = profile?.role === 'admin';
 
   return (
     <Tabs
       screenOptions={{
         tabBarActiveTintColor: Colors[colorScheme].tint,
+        tabBarInactiveTintColor: '#8A8A8A',
+        tabBarStyle: {
+          height: 70,
+          borderTopColor: '#242424',
+          backgroundColor: '#151515',
+          paddingTop: 6,
+          paddingBottom: 8,
+        },
+        tabBarLabelStyle: {
+          fontSize: 11,
+          fontWeight: '700',
+        },
+        tabBarItemStyle: {
+          minWidth: 0,
+        },
         headerShown: false,
       }}>
       <Tabs.Screen
         name="index"
         options={{
-          title: 'Inicio',
+          title: isAdmin ? 'Painel' : 'Inicio',
           tabBarIcon: ({ color }) => (
-            <Text style={{ color, fontSize: 22, fontWeight: '800' }}>J</Text>
+            <Text style={{ color, fontSize: 20, fontWeight: '800' }}>{isAdmin ? 'D' : 'J'}</Text>
           ),
         }}
       />
       <Tabs.Screen
         name="attendance"
         options={{
-          title: 'Presencas',
+          title: isAdmin ? 'Alunos' : 'Presencas',
           tabBarIcon: ({ color }) => (
-            <Text style={{ color, fontSize: 20, fontWeight: '800' }}>P</Text>
+            <Text style={{ color, fontSize: 20, fontWeight: '800' }}>{isAdmin ? 'A' : 'P'}</Text>
           ),
         }}
       />
@@ -43,7 +61,7 @@ export default function TabLayout() {
       <Tabs.Screen
         name="announcements"
         options={{
-          title: 'Comunicados',
+          title: 'Avisos',
           tabBarIcon: ({ color }) => (
             <Text style={{ color, fontSize: 20, fontWeight: '800' }}>M</Text>
           ),

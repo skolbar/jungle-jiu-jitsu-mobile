@@ -6,9 +6,9 @@ Este repositorio e separado da aplicacao web para manter o mobile isolado, priva
 
 ## Status
 
-Fase atual: **Fase 6 preparada - build Android**.
+Fase atual: **Fase 6.1 em validacao - admin mobile e ajustes do APK**.
 
-O projeto ja possui base Expo com TypeScript, Expo Router, autenticacao Supabase, telas mobile da area do aluno e configuracao EAS Android.
+O projeto ja possui base Expo com TypeScript, Expo Router, autenticacao Supabase, telas mobile da area do aluno, painel admin em leitura e configuracao EAS Android.
 
 Validacoes da fase 6:
 
@@ -28,7 +28,9 @@ Construir um aplicativo Android que replique os principais fluxos do sistema atu
 Prioridades mobile:
 
 - Login de aluno.
+- Login de admin com area propria.
 - Home do aluno.
+- Painel admin mobile.
 - Perfil.
 - Historico de aulas.
 - Comunicados.

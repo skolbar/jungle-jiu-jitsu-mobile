@@ -23,6 +23,15 @@ export interface Attendance {
   created_at: string;
 }
 
+export interface AttendanceWithStudent extends Attendance {
+  student: Pick<Profile, 'id' | 'full_name' | 'belt' | 'degree'> | null;
+}
+
+export interface AttendanceDate {
+  student_id: string;
+  date: string;
+}
+
 export interface Announcement {
   id: string;
   title: string;

@@ -36,11 +36,8 @@ student_id = user.id
 - Check-in mobile segue fora da interface enquanto o fluxo real de presencas depende do script semanal de importacao.
 - Conteudos bloqueados continuam aparecendo apenas como indisponiveis no app; a seguranca real deve permanecer no backend/RLS.
 
-## Proxima Fase
+## Evolucao Posterior
 
-A fase 5 deve introduzir notificacoes Android:
+A fase 6.1 adicionou uma area admin separada em leitura e manteve a area do aluno sem acoes de escrita.
 
-- permissao local;
-- registro de push token;
-- preferencias;
-- contrato server-side para envio seguro.
+Notificacoes Android seguem adiadas ate aprovacao do dono da ferramenta sobre regras e mensagens.

@@ -89,3 +89,27 @@ Build Android interno gerado em 2026-05-26:
 - Expira em: 2026-06-09
 
 Este APK e apenas para teste interno. Antes de qualquer distribuicao ampla, validar login, abas, leitura de dados, logout e reabertura em aparelho Android fisico.
+
+## Segundo Build Preview
+
+Build Android interno gerado em 2026-05-26 apos validacao em aparelho real:
+
+- EAS project: `@skolbar/jungle-jiu-jitsu-mobile`
+- EAS project ID: `0b7449e8-da68-4041-9774-832cc0d57189`
+- Build ID: `0420f2f9-588e-46ad-b33d-c2e6a90daa21`
+- Commit: `9b437e2 Add admin mobile area and Android UI fixes`
+- Perfil: `preview`
+- Plataforma: Android
+- Status: `FINISHED`
+- Artefato: `https://expo.dev/artifacts/eas/vz52H8T1fAnP7gUi3jMAa.apk`
+- Expira em: 2026-06-09
+
+Mudancas principais deste APK:
+
+- admin nao cai mais na mesma experiencia do aluno;
+- painel admin mobile em leitura;
+- lista de alunos para admin em leitura;
+- conteudos liberados para admin;
+- safe area no topo do Android;
+- contraste corrigido em cards brancos e escuros;
+- rotulo `Comunicados` encurtado para `Avisos` na navegacao inferior.

@@ -6,17 +6,20 @@ Este repositorio e separado da aplicacao web para manter o mobile isolado, priva
 
 ## Status
 
-Fase atual: **Fase 4 concluida - area do aluno**.
+Fase atual: **Fase 6 preparada - build Android**.
 
-O projeto ja possui base Expo com TypeScript, Expo Router, autenticacao Supabase e telas mobile da area do aluno.
+O projeto ja possui base Expo com TypeScript, Expo Router, autenticacao Supabase, telas mobile da area do aluno e configuracao EAS Android.
 
-Validacoes da fase 4:
+Validacoes da fase 6:
 
 - `npm run lint`
 - `npm run typecheck`
 - `npm audit --audit-level=moderate`
 - `npx expo install --check`
 - `npm run doctor`
+- `npx expo config --type public`
+
+Os comandos EAS foram adicionados, mas exigem login Expo/EAS ou `EXPO_TOKEN`.
 
 ## Objetivo Inicial
 
@@ -44,7 +47,7 @@ Prioridades mobile:
 - Expo Router.
 - Supabase JS para Auth, dados e storage.
 - AsyncStorage para persistencia de sessao Supabase no dispositivo.
-- Expo Notifications para notificacoes push Android.
+- Expo Notifications para notificacoes push Android, adiado ate aprovacao do dono da ferramenta.
 - EAS Build para gerar APK/AAB Android.
 
 ## Repos Relacionados
@@ -74,6 +77,7 @@ npm run android
 npm run lint
 npm run typecheck
 npm run doctor
+npx expo config --type public
 ```
 
 Variaveis:
@@ -85,3 +89,13 @@ cp .env.example .env
 Somente variaveis com prefixo `EXPO_PUBLIC_` ficam disponiveis no app. Nao coloque segredos privados nelas.
 
 O app aceita uma chave publica legada em `EXPO_PUBLIC_SUPABASE_ANON_KEY` ou uma chave publishable em `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
+
+Build Android:
+
+```bash
+npm run build:android:preview
+npm run build:android:production
+```
+
+Antes de executar builds EAS, configure as variaveis publicas do Supabase nos ambientes EAS `preview` e `production`.
+Tambem sera necessario autenticar o EAS com `eas login` ou `EXPO_TOKEN`.

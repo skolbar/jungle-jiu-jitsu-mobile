@@ -36,7 +36,11 @@
     "web": "expo start --web",
     "lint": "expo lint",
     "typecheck": "tsc --noEmit --pretty false",
-    "doctor": "npx expo-doctor"
+    "doctor": "npx expo-doctor",
+    "eas:config:android:preview": "npx eas-cli@latest config --platform android --profile preview --non-interactive",
+    "eas:inspect:android:preview": "npx eas-cli@latest build:inspect --platform android --profile preview --stage archive --output dist-eas-archive --force",
+    "build:android:preview": "npx eas-cli@latest build --platform android --profile preview",
+    "build:android:production": "npx eas-cli@latest build --platform android --profile production"
   },
   "private": true,
   "overrides": {

@@ -1,0 +1,15 @@
+node_modules/
+.expo/
+.git/
+dist/
+dist-*/
+web-build/
+android/
+ios/
+*.log
+*.apk
+*.aab
+*.ipa
+.env
+.env.*
+!.env.example

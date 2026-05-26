@@ -60,6 +60,8 @@ Observacao: a primeira versao mobile da area do aluno e de leitura segura. Nao c
 
 ## Fase 5 - Notificacoes Android
 
+Status: adiada.
+
 Entregas:
 
 - permissao de notificacao;
@@ -68,7 +70,11 @@ Entregas:
 - contrato para backend enviar notificacoes;
 - notificacoes para aula adicionada, ausencia prolongada e proximidade de graduacao.
 
+Observacao: esta fase depende de alinhamento com o dono da ferramenta sobre regras e mensagens. Nenhuma feature de notificacao/mensagem sera implementada ate essa aprovacao.
+
 ## Fase 6 - Build Android E Validacao
+
+Status: preparada.
 
 Entregas:
 
@@ -76,3 +82,5 @@ Entregas:
 - smoke test em aparelho Android;
 - checklist de publicacao;
 - plano de rollout controlado.
+
+Observacao: `eas.json` foi configurado com `preview` em APK interno e `production` em AAB. O build real depende de conta Expo/EAS e variaveis Supabase publicas nos ambientes EAS.

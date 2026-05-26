@@ -23,11 +23,38 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
-        name="alerts"
+        name="attendance"
         options={{
-          title: 'Alertas',
+          title: 'Presencas',
           tabBarIcon: ({ color }) => (
-            <Text style={{ color, fontSize: 21, fontWeight: '800' }}>!</Text>
+            <Text style={{ color, fontSize: 20, fontWeight: '800' }}>P</Text>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="contents"
+        options={{
+          title: 'Conteudos',
+          tabBarIcon: ({ color }) => (
+            <Text style={{ color, fontSize: 20, fontWeight: '800' }}>C</Text>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="announcements"
+        options={{
+          title: 'Comunicados',
+          tabBarIcon: ({ color }) => (
+            <Text style={{ color, fontSize: 20, fontWeight: '800' }}>M</Text>
+          ),
+        }}
+      />
+      <Tabs.Screen
+        name="profile"
+        options={{
+          title: 'Perfil',
+          tabBarIcon: ({ color }) => (
+            <Text style={{ color, fontSize: 20, fontWeight: '800' }}>U</Text>
           ),
         }}
       />

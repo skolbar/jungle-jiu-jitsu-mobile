@@ -6,11 +6,11 @@ Este repositorio e separado da aplicacao web para manter o mobile isolado, priva
 
 ## Status
 
-Fase atual: **Fase 3 concluida - Auth e sessao**.
+Fase atual: **Fase 4 concluida - area do aluno**.
 
-O projeto ja possui base Expo com TypeScript, Expo Router e autenticacao Supabase para login email/senha.
+O projeto ja possui base Expo com TypeScript, Expo Router, autenticacao Supabase e telas mobile da area do aluno.
 
-Validacoes da fase 3:
+Validacoes da fase 4:
 
 - `npm run lint`
 - `npm run typecheck`

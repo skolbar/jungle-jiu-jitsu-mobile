@@ -1,12 +1,19 @@
-import { ActivityIndicator, Pressable, StyleSheet } from 'react-native';
+import { ActivityIndicator, Pressable, ScrollView, StyleSheet } from 'react-native';
+import { useEffect, useMemo, useState } from 'react';
 
 import { Text, View } from '@/components/Themed';
 import { useAuth } from '@/contexts/auth';
 import { computeGraduationProgress, getBeltName } from '@/lib/graduation';
+import { fetchStudentAttendances } from '@/lib/data';
+import { daysSince, formatDate } from '@/lib/format';
+import type { Attendance } from '@/lib/types';
 
 export default function HomeScreen() {
   const { authError, isProfileLoading, profile, refreshProfile, signOut, user } = useAuth();
-  const graduation = profile ? computeGraduationProgress(profile) : null;
+  const [latestAttendance, setLatestAttendance] = useState<Attendance | null>(null);
+  const [loadingAttendance, setLoadingAttendance] = useState(false);
+
+  const graduation = useMemo(() => (profile ? computeGraduationProgress(profile) : null), [profile]);
   const displayName = profile?.full_name ?? user?.email ?? 'Aluno';
   const nextGoal = graduation?.isBlackBelt
     ? 'Definida pelo professor'
@@ -18,14 +25,49 @@ export default function HomeScreen() {
           ? `${graduation.classesNeeded} aulas`
           : '--';
 
+  useEffect(() => {
+    const studentId = user?.id;
+    if (!studentId) {
+      return;
+    }
+
+    const resolvedStudentId = studentId;
+    let cancelled = false;
+
+    async function loadLatestAttendance() {
+      setLoadingAttendance(true);
+      try {
+        const rows = await fetchStudentAttendances(resolvedStudentId, 1);
+        if (!cancelled) {
+          setLatestAttendance(rows[0] ?? null);
+        }
+      } catch {
+        if (!cancelled) {
+          setLatestAttendance(null);
+        }
+      } finally {
+        if (!cancelled) {
+          setLoadingAttendance(false);
+        }
+      }
+    }
+
+    void loadLatestAttendance();
+
+    return () => {
+      cancelled = true;
+    };
+  }, [user]);
+
+  const absenceDays = daysSince(latestAttendance?.date);
   const summary = [
     { label: 'Aulas no ciclo', value: graduation ? String(graduation.currentCycleClasses) : '--' },
     { label: 'Total de aulas', value: profile ? String(profile.total_classes) : '--' },
-    { label: 'Proxima meta', value: nextGoal },
+    { label: 'Ultima presenca', value: loadingAttendance ? '...' : formatDate(latestAttendance?.date) },
   ];
 
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <View style={styles.header}>
         <View style={styles.logo}>
           <Text style={styles.logoText}>J</Text>
@@ -37,6 +79,25 @@ export default function HomeScreen() {
       </View>
 
       {authError ? <Text style={styles.errorText}>{authError}</Text> : null}
+
+      <View style={styles.progressCard}>
+        <View style={styles.progressHeader}>
+          <Text style={styles.progressTitle}>Progresso</Text>
+          <Text style={styles.progressNumber}>{graduation ? `${graduation.progressPct}%` : '--'}</Text>
+        </View>
+        <View style={styles.progressTrack}>
+          <View style={[styles.progressFill, { width: `${graduation?.progressPct ?? 0}%` }]} />
+        </View>
+        <Text style={styles.progressText}>
+          {graduation?.isBlackBelt
+            ? 'Progressao definida pelo professor.'
+            : graduation?.canPromoteBelt
+              ? 'Pronto para trocar de faixa.'
+              : graduation?.canPromoteGrade
+                ? 'Pronto para o proximo grau.'
+                : `Faltam ${nextGoal} para a proxima meta.`}
+        </Text>
+      </View>
 
       <View style={styles.panel}>
         {isProfileLoading ? (
@@ -51,6 +112,17 @@ export default function HomeScreen() {
         )}
       </View>
 
+      <View style={styles.insightCard}>
+        <Text style={styles.sectionTitle}>Ritmo de treino</Text>
+        <Text style={styles.insightText}>
+          {absenceDays === null
+            ? 'Ainda nao encontramos presencas registradas para esta conta.'
+            : absenceDays === 0
+              ? 'Presenca registrada hoje.'
+              : `${absenceDays} dia(s) desde a ultima presenca.`}
+        </Text>
+      </View>
+
       <View style={styles.actions}>
         <Pressable accessibilityRole="button" onPress={refreshProfile} style={styles.secondaryButton}>
           <Text style={styles.secondaryButtonText}>Atualizar</Text>
@@ -59,16 +131,16 @@ export default function HomeScreen() {
           <Text style={styles.primaryButtonText}>Sair</Text>
         </Pressable>
       </View>
-    </View>
+    </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    justifyContent: 'space-between',
+    flexGrow: 1,
+    gap: 18,
     paddingHorizontal: 24,
-    paddingVertical: 48,
+    paddingVertical: 34,
   },
   header: {
     alignItems: 'flex-start',
@@ -117,6 +189,60 @@ const styles = StyleSheet.create({
     color: '#151515',
     fontSize: 17,
     fontWeight: '700',
+  },
+  progressCard: {
+    gap: 12,
+    borderRadius: 8,
+    padding: 18,
+    backgroundColor: '#151515',
+  },
+  progressHeader: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    backgroundColor: '#151515',
+  },
+  sectionTitle: {
+    color: '#151515',
+    fontSize: 16,
+    fontWeight: '800',
+  },
+  progressTitle: {
+    color: '#FFFFFF',
+    fontSize: 16,
+    fontWeight: '800',
+  },
+  progressNumber: {
+    color: '#FFFFFF',
+    fontSize: 20,
+    fontWeight: '800',
+  },
+  progressTrack: {
+    height: 10,
+    overflow: 'hidden',
+    borderRadius: 8,
+    backgroundColor: '#3A3A3A',
+  },
+  progressFill: {
+    height: '100%',
+    borderRadius: 8,
+    backgroundColor: '#D7262E',
+  },
+  progressText: {
+    color: '#F3F4F6',
+    fontSize: 14,
+    lineHeight: 20,
+  },
+  insightCard: {
+    gap: 8,
+    borderRadius: 8,
+    padding: 18,
+    backgroundColor: '#FFFFFF',
+  },
+  insightText: {
+    color: '#4B5563',
+    fontSize: 15,
+    lineHeight: 21,
   },
   actions: {
     gap: 12,

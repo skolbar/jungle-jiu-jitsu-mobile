@@ -16,5 +16,32 @@ export interface Profile {
   updated_at: string;
 }
 
+export interface Attendance {
+  id: string;
+  student_id: string;
+  date: string;
+  created_at: string;
+}
+
+export interface Announcement {
+  id: string;
+  title: string;
+  message: string;
+  created_at: string;
+}
+
+export interface Content {
+  id: string;
+  title: string;
+  description: string | null;
+  type: string;
+  url: string | null;
+  required_belt: Belt;
+  required_degree: number;
+  module_slug: string | null;
+  category: string | null;
+  created_at: string;
+}
+
 export const SAFE_PROFILE_COLUMNS =
   'id,email,full_name,role,belt,degree,total_classes,cycle_classes,avatar_url,belt_locked,created_at,updated_at';

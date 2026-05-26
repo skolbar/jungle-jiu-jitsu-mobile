@@ -45,6 +45,8 @@ Observacao: o app usa apenas variaveis publicas `EXPO_PUBLIC_*`, persiste a sess
 
 ## Fase 4 - Area Do Aluno
 
+Status: concluida.
+
 Entregas:
 
 - home do aluno;
@@ -53,6 +55,8 @@ Entregas:
 - comunicados;
 - modulos/conteudos;
 - check-in, se mantido no mobile.
+
+Observacao: a primeira versao mobile da area do aluno e de leitura segura. Nao cria check-ins, nao altera perfil e nao executa fluxos administrativos.
 
 ## Fase 5 - Notificacoes Android
 

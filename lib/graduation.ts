@@ -30,6 +30,33 @@ export function getBeltName(belt: Belt | null | undefined): string {
   return belt ? BELT_NAMES_PT[belt] : 'Nao definida';
 }
 
+export function getBeltRank(belt: Belt | string | null | undefined): number {
+  const ranks: Record<Belt, number> = {
+    white: 1,
+    blue: 2,
+    purple: 3,
+    brown: 4,
+    black: 5,
+  };
+
+  return belt && belt in ranks ? ranks[belt as Belt] : 0;
+}
+
+export function canAccessByGraduation(
+  profile: Pick<Profile, 'belt' | 'degree'>,
+  requiredBelt: Belt,
+  requiredDegree: number
+): boolean {
+  const studentBelt = getBeltRank(profile.belt);
+  const required = getBeltRank(requiredBelt);
+
+  if (studentBelt > required) {
+    return true;
+  }
+
+  return studentBelt === required && profile.degree >= requiredDegree;
+}
+
 export function computeGraduationProgress(
   profile: Pick<Profile, 'belt' | 'degree' | 'cycle_classes'>
 ): GraduationProgress {

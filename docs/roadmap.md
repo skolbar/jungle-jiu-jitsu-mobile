@@ -29,6 +29,8 @@ Observacao: a base foi validada com lint, typecheck, audit, `expo install --chec
 
 ## Fase 3 - Auth E Sessao
 
+Status: concluida.
+
 Entregas:
 
 - configurar Supabase client;
@@ -38,6 +40,8 @@ Entregas:
 - tela de carregamento;
 - rota protegida;
 - leitura do perfil atual.
+
+Observacao: o app usa apenas variaveis publicas `EXPO_PUBLIC_*`, persiste a sessao no AsyncStorage e busca somente o perfil do usuario autenticado.
 
 ## Fase 4 - Area Do Aluno
 

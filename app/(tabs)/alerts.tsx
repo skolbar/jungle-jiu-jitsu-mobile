@@ -1,22 +1,27 @@
 import { StyleSheet } from 'react-native';
 
 import { Text, View } from '@/components/Themed';
-
-const alerts = [
-  'Presenca registrada',
-  'Ausencia prolongada',
-  'Proximo da graduacao',
-];
+import { useAuth } from '@/contexts/auth';
 
 export default function AlertsScreen() {
+  const { profile } = useAuth();
+  const alerts = [
+    { title: 'Presenca registrada', status: 'Aguardando backend de notificacoes' },
+    { title: 'Ausencia prolongada', status: 'Planejado para fase 5' },
+    {
+      title: 'Proximo da graduacao',
+      status: profile ? `${profile.cycle_classes} aulas no ciclo atual` : 'Perfil nao carregado',
+    },
+  ];
+
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Alertas</Text>
       <View style={styles.list}>
         {alerts.map((alert) => (
-          <View key={alert} style={styles.item}>
-            <Text style={styles.itemTitle}>{alert}</Text>
-            <Text style={styles.itemStatus}>Pendente</Text>
+          <View key={alert.title} style={styles.item}>
+            <Text style={styles.itemTitle}>{alert.title}</Text>
+            <Text style={styles.itemStatus}>{alert.status}</Text>
           </View>
         ))}
       </View>

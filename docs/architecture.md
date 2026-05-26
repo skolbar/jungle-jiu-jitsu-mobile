@@ -56,9 +56,16 @@ O mobile deve usar Supabase Auth com persistencia de sessao no aparelho.
 Principios:
 
 - login por email/senha no primeiro momento;
-- sessao guardada com storage seguro/AsyncStorage;
+- sessao guardada com AsyncStorage no primeiro momento;
 - leitura do perfil autenticado apos login;
 - roteamento por papel do usuario quando necessario.
+
+Implementacao atual:
+
+- `lib/supabase.ts` cria o cliente Supabase somente quando as variaveis publicas estao configuradas.
+- `contexts/auth.tsx` centraliza sessao, login, logout e leitura do perfil atual.
+- `app/_layout.tsx` usa rotas protegidas do Expo Router para separar login e area autenticada.
+- O app consulta a tabela `profiles` filtrando pelo `id` do usuario autenticado.
 
 ## Dados
 
@@ -77,4 +84,3 @@ Sera necessario:
 - armazenar status de permissao;
 - criar uma rotina server-side para decidir quem deve ser notificado;
 - enviar notificacoes via Expo Push API ou provider equivalente.
-

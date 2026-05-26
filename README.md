@@ -6,11 +6,11 @@ Este repositorio e separado da aplicacao web para manter o mobile isolado, priva
 
 ## Status
 
-Fase atual: **Fase 2 concluida - scaffold Expo Android**.
+Fase atual: **Fase 3 concluida - Auth e sessao**.
 
-O projeto ja possui base Expo com TypeScript e Expo Router. A autenticacao real com Supabase sera implementada na Fase 3.
+O projeto ja possui base Expo com TypeScript, Expo Router e autenticacao Supabase para login email/senha.
 
-Validacoes da fase 2:
+Validacoes da fase 3:
 
 - `npm run lint`
 - `npm run typecheck`
@@ -43,6 +43,7 @@ Prioridades mobile:
 - TypeScript.
 - Expo Router.
 - Supabase JS para Auth, dados e storage.
+- AsyncStorage para persistencia de sessao Supabase no dispositivo.
 - Expo Notifications para notificacoes push Android.
 - EAS Build para gerar APK/AAB Android.
 
@@ -82,3 +83,5 @@ cp .env.example .env
 ```
 
 Somente variaveis com prefixo `EXPO_PUBLIC_` ficam disponiveis no app. Nao coloque segredos privados nelas.
+
+O app aceita uma chave publica legada em `EXPO_PUBLIC_SUPABASE_ANON_KEY` ou uma chave publishable em `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.

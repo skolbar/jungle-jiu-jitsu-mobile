@@ -73,16 +73,17 @@ Para a primeira versao, o mobile deve priorizar telas de aluno.
 
 Fluxos de admin podem entrar depois, pois tem maior risco de permissao e exigem endpoints server-side mais cuidadosamente revisados.
 
-Implementacao da area do aluno:
+Implementacao das areas:
 
 - `app/(tabs)/index.tsx`: resumo, progresso e ultima presenca.
-- `app/(tabs)/attendance.tsx`: historico recente de presencas do aluno autenticado.
-- `app/(tabs)/contents.tsx`: modulos e conteudos com bloqueio visual por faixa/grau.
-- `app/(tabs)/announcements.tsx`: comunicados.
-- `app/(tabs)/profile.tsx`: dados do perfil e logout.
+- `app/(tabs)/attendance.tsx`: historico recente do aluno ou gestao admin de alunos.
+- `app/(tabs)/contents.tsx`: modulos/conteudos com bloqueio visual para aluno e criacao/exclusao para admin.
+- `app/(tabs)/announcements.tsx`: comunicados para aluno; comunicados, check-ins e catraca para admin.
+- `app/(tabs)/profile.tsx`: foto, perfil, senha, faixa/grau do aluno quando permitido e logout.
 - `lib/data.ts`: consultas Supabase de leitura para presencas, conteudos e comunicados.
+- `lib/api.ts`: chamadas autenticadas para a API segura da web usando Bearer token Supabase.
 
-As consultas de presenca usam `student_id = user.id`. Alteracoes de dados permanecem fora da fase 4.
+As consultas de presenca do aluno usam `student_id = user.id`. Acoes administrativas sensiveis passam pela API web para manter segredos fora do APK.
 
 ## Notificacoes
 

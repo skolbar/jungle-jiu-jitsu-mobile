@@ -24,6 +24,7 @@ Configurar nos ambientes EAS `preview` e `production`:
 EXPO_PUBLIC_SUPABASE_URL=
 EXPO_PUBLIC_SUPABASE_ANON_KEY=
 # ou EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY=
+EXPO_PUBLIC_WEB_API_URL=https://v0-jiu-jitsu-mvp.vercel.app
 ```
 
 Nao configurar `SUPABASE_SERVICE_ROLE_KEY` no app mobile.
@@ -63,10 +64,11 @@ npm run build:android:production
 ## Checklist Antes De Entregar APK
 
 - Autenticar EAS com `eas login` ou `EXPO_TOKEN`.
-- Confirmar variaveis Supabase no EAS.
+- Confirmar variaveis Supabase e `EXPO_PUBLIC_WEB_API_URL` no EAS.
 - Fazer login com aluno real de teste.
 - Verificar Inicio, Presencas, Conteudos, Comunicados e Perfil.
-- Confirmar que nenhuma acao administrativa aparece no app.
+- Fazer login com admin real de teste.
+- Verificar Painel, Alunos, Conteudos, Avisos/Check-ins/Catraca e Perfil.
 - Confirmar que check-in continua fora do mobile enquanto o fluxo semanal por importacao estiver ativo.
 - Testar logout e reabertura do app.
 - Validar em pelo menos um aparelho Android fisico.

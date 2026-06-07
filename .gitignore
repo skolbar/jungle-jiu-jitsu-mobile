@@ -5,6 +5,8 @@ node_modules/
 .expo/
 .expo-shared/
 dist/
+dist-*/
+dist-eas-archive/
 web-build/
 
 # Native build outputs

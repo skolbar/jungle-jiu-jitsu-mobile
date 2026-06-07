@@ -6,9 +6,9 @@ Este repositorio e separado da aplicacao web para manter o mobile isolado, priva
 
 ## Status
 
-Fase atual: **Fase 6.1 em validacao - admin mobile e ajustes do APK**.
+Fase atual: **Finalizacao para Google Play - paridade mobile com web em validacao**.
 
-O projeto ja possui base Expo com TypeScript, Expo Router, autenticacao Supabase, telas mobile da area do aluno, painel admin em leitura e configuracao EAS Android.
+O projeto ja possui base Expo com TypeScript, Expo Router, autenticacao Supabase, telas mobile da area do aluno, area admin com acoes principais da web e configuracao EAS Android.
 
 Validacoes da fase 6:
 
@@ -63,6 +63,7 @@ Prioridades mobile:
 - O app mobile deve usar apenas chave publica/anonima do Supabase e depender de RLS ou APIs seguras.
 - Funcoes administrativas sensiveis devem passar por endpoints server-side seguros.
 - Producao web e banco de producao nao devem ser alterados sem validacao explicita.
+- Acoes admin mobile usam a sessao Supabase do usuario como `Authorization: Bearer <access_token>` contra a API segura da web.
 
 ## Desenvolvimento
 
@@ -91,6 +92,11 @@ cp .env.example .env
 Somente variaveis com prefixo `EXPO_PUBLIC_` ficam disponiveis no app. Nao coloque segredos privados nelas.
 
 O app aceita uma chave publica legada em `EXPO_PUBLIC_SUPABASE_ANON_KEY` ou uma chave publishable em `EXPO_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
+Para acoes administrativas, o app chama a API segura da web com o token Supabase do usuario:
+
+```bash
+EXPO_PUBLIC_WEB_API_URL=https://v0-jiu-jitsu-mvp.vercel.app
+```
 
 Build Android:
 

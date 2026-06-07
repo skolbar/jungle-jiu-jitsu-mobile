@@ -1,5 +1,6 @@
 export type Belt = 'white' | 'blue' | 'purple' | 'brown' | 'black';
 export type Role = 'admin' | 'student';
+export type CheckInStatus = 'pending' | 'approved' | 'rejected';
 
 export interface Profile {
   id: string;
@@ -36,6 +37,7 @@ export interface Announcement {
   id: string;
   title: string;
   message: string;
+  created_by?: string | null;
   created_at: string;
 }
 
@@ -50,6 +52,14 @@ export interface Content {
   module_slug: string | null;
   category: string | null;
   created_at: string;
+}
+
+export interface CheckIn {
+  id: string;
+  status: CheckInStatus;
+  created_at: string;
+  validated_at: string | null;
+  student: Pick<Profile, 'id' | 'full_name' | 'belt' | 'degree' | 'avatar_url'> | null;
 }
 
 export const SAFE_PROFILE_COLUMNS =

@@ -138,3 +138,20 @@ Mudancas principais deste APK:
 - aluno pode definir faixa/grau uma unica vez quando ainda nao bloqueado;
 - app usa API web segura com Bearer token Supabase para acoes sensiveis;
 - `SUPABASE_SERVICE_ROLE_KEY` continua fora do APK.
+
+## Primeiro Build Production AAB
+
+Build Android de producao gerado em 2026-06-07 para preparacao da Google Play:
+
+- EAS project: `@skolbar/jungle-jiu-jitsu-mobile`
+- EAS project ID: `0b7449e8-da68-4041-9774-832cc0d57189`
+- Build ID: `8b443197-7953-4a5e-b5b0-f5b2594d5d66`
+- Commit: `eaa83c7 Record final parity preview APK`
+- Perfil: `production`
+- Plataforma: Android
+- Formato: `AAB`
+- Version code: `2`
+- Status: `FINISHED`
+- Artefato: `https://expo.dev/artifacts/eas/icrpmZRk5msqYQVchSmtxm.aab`
+
+Este artefato ainda nao publica o app. Ele e o arquivo de upload para a Google Play Console apos validacao final em aparelho fisico.

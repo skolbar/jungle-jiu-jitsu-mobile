@@ -115,3 +115,26 @@ Mudancas principais deste APK:
 - safe area no topo do Android;
 - contraste corrigido em cards brancos e escuros;
 - rotulo `Comunicados` encurtado para `Avisos` na navegacao inferior.
+
+## Terceiro Build Preview
+
+Build Android interno gerado em 2026-06-07 apos finalizacao de paridade mobile/web:
+
+- EAS project: `@skolbar/jungle-jiu-jitsu-mobile`
+- EAS project ID: `0b7449e8-da68-4041-9774-832cc0d57189`
+- Build ID: `ab1d43c8-6e4b-484d-9c93-935d302becbc`
+- Commit: `b4a9b6c Complete mobile admin and profile parity`
+- Perfil: `preview`
+- Plataforma: Android
+- Status: `FINISHED`
+- Artefato: `https://expo.dev/artifacts/eas/n8x4XNpU8xiTxXx3HnxteW.apk`
+
+Mudancas principais deste APK:
+
+- admin pode criar/editar/remover aluno, adicionar aulas e promover graduacao;
+- admin pode criar/excluir conteudos;
+- admin pode publicar comunicados, validar check-ins e registrar presenca na catraca virtual;
+- aluno e admin podem alterar foto, nome e senha;
+- aluno pode definir faixa/grau uma unica vez quando ainda nao bloqueado;
+- app usa API web segura com Bearer token Supabase para acoes sensiveis;
+- `SUPABASE_SERVICE_ROLE_KEY` continua fora do APK.

@@ -73,13 +73,20 @@ export default function ContentsScreen() {
   const isAdmin = profile?.role === 'admin';
 
   async function openContent(url: string | null) {
-    if (!url) {
+    const targetUrl = normalizeContentUrl(url);
+
+    if (!targetUrl) {
+      setError('Este conteudo nao possui um link valido.');
       return;
     }
 
-    const canOpen = await Linking.canOpenURL(url);
-    if (canOpen) {
-      await Linking.openURL(url);
+    setError(null);
+    setMessage(null);
+
+    try {
+      await Linking.openURL(targetUrl);
+    } catch {
+      setError('Nao foi possivel abrir o conteudo neste aparelho. Verifique se ha um navegador ou app do YouTube instalado.');
     }
   }
 
@@ -362,6 +369,15 @@ function slugify(value: string) {
     .replace(/[\u0300-\u036f]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '');
+}
+
+function normalizeContentUrl(url: string | null) {
+  const trimmed = url?.trim();
+  if (!trimmed) return null;
+
+  if (/^https?:\/\//i.test(trimmed)) return trimmed;
+  if (trimmed.startsWith('/')) return `https://v0-jiu-jitsu-mvp.vercel.app${trimmed}`;
+  return `https://${trimmed}`;
 }
 
 const styles = StyleSheet.create({

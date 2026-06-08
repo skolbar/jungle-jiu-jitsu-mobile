@@ -155,3 +155,21 @@ Build Android de producao gerado em 2026-06-07 para preparacao da Google Play:
 - Artefato: `https://expo.dev/artifacts/eas/icrpmZRk5msqYQVchSmtxm.aab`
 
 Este artefato ainda nao publica o app. Ele e o arquivo de upload para a Google Play Console apos validacao final em aparelho fisico.
+
+## Segundo Build Production AAB
+
+Build Android de producao gerado em 2026-06-08 apos troca do icone pela marca da academia:
+
+- EAS project: `@skolbar/jungle-jiu-jitsu-mobile`
+- EAS project ID: `0b7449e8-da68-4041-9774-832cc0d57189`
+- Build ID: `954752cb-a4f2-4b51-b9db-c78a93749eac`
+- Commit: `1d5bf51 Update Android app icon branding`
+- Perfil: `production`
+- Plataforma: Android
+- Formato: `AAB`
+- Version code: `3`
+- Status: `FINISHED`
+- Artefato: `https://expo.dev/artifacts/eas/jr9uwAkcAw1gtF6XcGN8KA.aab`
+- Copia local: `builds/jungle-jiu-jitsu-1.0.0-code3.aab`
+
+Este e o arquivo recomendado para o primeiro upload na Google Play Store.

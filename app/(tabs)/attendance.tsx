@@ -265,11 +265,19 @@ function AdminStudentsScreen() {
     setActionLoading(true);
     setError(null);
     try {
-      await updateStudent(selectedStudent.id, {
-        full_name: fullName,
-        belt: form.belt,
-        degree: form.degree,
-      });
+      const payload: { full_name?: string; belt?: Belt; degree?: number } = {};
+
+      if (fullName !== (selectedStudent.full_name ?? '')) payload.full_name = fullName;
+      if (form.belt !== selectedStudent.belt) payload.belt = form.belt;
+      if (form.degree !== selectedStudent.degree) payload.degree = form.degree;
+
+      if (Object.keys(payload).length === 0) {
+        setMessage('Nenhuma alteracao para salvar.');
+        resetAction();
+        return;
+      }
+
+      await updateStudent(selectedStudent.id, payload);
       setMessage('Aluno atualizado com sucesso.');
       resetAction();
       await loadStudents();
@@ -367,7 +375,7 @@ function AdminStudentsScreen() {
     setActionLoading(true);
     setError(null);
     try {
-      await updateStudent(student.id, next);
+      await updateStudent(student.id, { ...next, reset_cycle_classes: true });
       setMessage('Graduacao atualizada com sucesso.');
       await loadStudents();
     } catch (promoteError) {

@@ -23,6 +23,7 @@ type UpdateStudentPayload = {
   full_name?: string;
   belt?: Belt;
   degree?: number;
+  reset_cycle_classes?: boolean;
 };
 
 type CreateContentPayload = {

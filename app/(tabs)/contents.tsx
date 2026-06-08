@@ -66,11 +66,15 @@ export default function ContentsScreen() {
     return () => clearTimeout(timer);
   }, [loadContents]);
 
-  const grouped = useMemo(() => groupContentByModule(contents), [contents]);
+  const isAdmin = profile?.role === 'admin';
+  const visibleContents = useMemo(
+    () => (isAdmin ? contents : contents.filter((content) => hasOpenableContentUrl(content.url))),
+    [contents, isAdmin],
+  );
+  const grouped = useMemo(() => groupContentByModule(visibleContents), [visibleContents]);
   const moduleSlugs = useMemo(() => Object.keys(grouped).sort(), [grouped]);
   const activeModule = selectedModule ?? moduleSlugs[0] ?? null;
   const selectedContents = activeModule ? grouped[activeModule] ?? [] : [];
-  const isAdmin = profile?.role === 'admin';
 
   async function openContent(url: string | null) {
     const targetUrl = normalizeContentUrl(url);
@@ -155,7 +159,7 @@ export default function ContentsScreen() {
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.header}>
           <Text style={styles.title}>Conteudos</Text>
-          <Text style={styles.subtitle}>{contents.length} aula(s) cadastrada(s)</Text>
+          <Text style={styles.subtitle}>{visibleContents.length} aula(s) cadastrada(s)</Text>
         </View>
 
         {message ? <Text style={styles.successText}>{message}</Text> : null}
@@ -217,13 +221,14 @@ export default function ContentsScreen() {
                 const unlocked =
                   isAdmin ||
                   (profile ? canAccessByGraduation(profile, content.required_belt, content.required_degree) : false);
+                const hasLink = hasOpenableContentUrl(content.url);
                 return (
                   <View key={content.id} style={[styles.item, !unlocked && styles.itemLocked]}>
                     <View style={[styles.itemHeader, !unlocked && styles.itemHeaderLocked]}>
                       <Text style={[styles.itemCategory, !unlocked && styles.lockedText]}>
                         {content.category || 'Geral'}
                       </Text>
-                      <Text style={styles.itemLock}>{unlocked ? 'Disponivel' : 'Bloqueado'}</Text>
+                      <Text style={styles.itemLock}>{unlocked ? (hasLink ? 'Disponivel' : 'Sem link') : 'Bloqueado'}</Text>
                     </View>
                     <Text style={[styles.itemTitle, !unlocked && styles.lockedTitle]}>{content.title}</Text>
                     {content.description ? (
@@ -237,10 +242,12 @@ export default function ContentsScreen() {
                     </Text>
                     <Pressable
                       accessibilityRole="button"
-                      disabled={!unlocked || !content.url}
+                      disabled={!unlocked || !hasLink}
                       onPress={() => openContent(content.url)}
-                      style={[styles.openButton, (!unlocked || !content.url) && styles.openButtonDisabled]}>
-                      <Text style={styles.openButtonText}>{unlocked ? 'Abrir conteudo' : 'Indisponivel'}</Text>
+                      style={[styles.openButton, (!unlocked || !hasLink) && styles.openButtonDisabled]}>
+                      <Text style={styles.openButtonText}>
+                        {unlocked ? (hasLink ? 'Abrir conteudo' : 'Link pendente') : 'Indisponivel'}
+                      </Text>
                     </Pressable>
                     {isAdmin ? (
                       <Pressable
@@ -255,7 +262,7 @@ export default function ContentsScreen() {
                 );
               })}
 
-              {contents.length === 0 ? (
+              {visibleContents.length === 0 ? (
                 <View style={styles.emptyCard}>
                   <Text style={styles.emptyTitle}>Nenhum conteudo encontrado</Text>
                 </View>
@@ -371,9 +378,14 @@ function slugify(value: string) {
     .replace(/^-+|-+$/g, '');
 }
 
+function hasOpenableContentUrl(url: string | null) {
+  return normalizeContentUrl(url) !== null;
+}
+
 function normalizeContentUrl(url: string | null) {
   const trimmed = url?.trim();
   if (!trimmed) return null;
+  if (trimmed.startsWith('/placeholder.svg')) return null;
 
   if (/^https?:\/\//i.test(trimmed)) return trimmed;
   if (trimmed.startsWith('/')) return `https://v0-jiu-jitsu-mvp.vercel.app${trimmed}`;

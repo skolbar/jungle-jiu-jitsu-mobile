@@ -1,4 +1,4 @@
-import { Image, Pressable, ScrollView, StyleSheet, TextInput } from 'react-native';
+import { Image, Linking, Pressable, ScrollView, StyleSheet, TextInput } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import * as ImagePicker from 'expo-image-picker';
 import { useState } from 'react';
@@ -13,6 +13,7 @@ import type { Belt } from '@/lib/types';
 
 const BELT_OPTIONS: Belt[] = ['white', 'blue', 'purple', 'brown', 'black'];
 const DEGREE_OPTIONS = [0, 1, 2, 3, 4];
+const PRIVACY_POLICY_URL = 'https://v0-jiu-jitsu-mvp.vercel.app/politica-de-privacidade';
 
 function initials(name: string | null | undefined) {
   return (name || 'Aluno')
@@ -43,6 +44,16 @@ export default function ProfileScreen() {
   const visibleFullName = fullName ?? profile?.full_name ?? '';
   const visibleBelt = beltDraft ?? profile?.belt ?? 'white';
   const visibleDegree = degreeDraft ?? profile?.degree ?? 0;
+
+  async function openPrivacyPage(anchor = '') {
+    setError(null);
+
+    try {
+      await Linking.openURL(`${PRIVACY_POLICY_URL}${anchor}`);
+    } catch {
+      setError('Nao foi possivel abrir a pagina de privacidade neste aparelho.');
+    }
+  }
 
   async function handleAvatarUpload() {
     if (!user?.id || !supabase) return;
@@ -309,6 +320,25 @@ export default function ProfileScreen() {
           </Pressable>
         </View>
 
+        <View style={styles.formCard}>
+          <Text style={styles.formTitle}>Privacidade e dados</Text>
+          <Text style={styles.formHint}>
+            Consulte como seus dados sao tratados ou solicite a exclusao da sua conta.
+          </Text>
+          <Pressable
+            accessibilityRole="link"
+            onPress={() => openPrivacyPage()}
+            style={styles.secondaryButton}>
+            <Text style={styles.secondaryButtonText}>Politica de privacidade</Text>
+          </Pressable>
+          <Pressable
+            accessibilityRole="link"
+            onPress={() => openPrivacyPage('#exclusao-de-conta')}
+            style={styles.textLinkButton}>
+            <Text style={styles.textLinkButtonText}>Solicitar exclusao da conta</Text>
+          </Pressable>
+        </View>
+
         <Pressable accessibilityRole="button" onPress={refreshProfile} style={styles.secondaryButton}>
           <Text style={styles.secondaryButtonText}>Atualizar perfil</Text>
         </Pressable>
@@ -510,6 +540,18 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: '800',
     textAlign: 'center',
+  },
+  textLinkButton: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    minHeight: 44,
+  },
+  textLinkButtonText: {
+    color: '#4B5563',
+    fontSize: 14,
+    fontWeight: '700',
+    textAlign: 'center',
+    textDecorationLine: 'underline',
   },
   disabledButton: {
     opacity: 0.65,

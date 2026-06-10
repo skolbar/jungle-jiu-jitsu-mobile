@@ -173,3 +173,22 @@ Build Android de producao gerado em 2026-06-08 apos troca do icone pela marca da
 - Copia local: `builds/jungle-jiu-jitsu-1.0.0-code3.aab`
 
 Este e o arquivo recomendado para o primeiro upload na Google Play Store.
+
+## Terceiro Build Production AAB
+
+Build Android de producao gerado apos publicacao da politica de privacidade e inclusao dos links dentro do app:
+
+- EAS project: `@skolbar/jungle-jiu-jitsu-mobile`
+- EAS project ID: `0b7449e8-da68-4041-9774-832cc0d57189`
+- Build ID: `292825fd-56b6-4532-924f-8ac3c56ee71f`
+- Commit: `4ab3c52 Add in-app privacy policy link`
+- Perfil: `production`
+- Plataforma: Android
+- Formato: `AAB`
+- Version code: `4`
+- Status: `FINISHED`
+- Artefato: `https://expo.dev/artifacts/eas/65LAgewsVCz91WqwHLKjQx.aab`
+- Copia local: `builds/jungle-jiu-jitsu-1.0.0-code4.aab`
+- Politica publica: `https://v0-jiu-jitsu-mvp.vercel.app/politica-de-privacidade`
+
+Este bundle substitui o version code 3 para publicacao na Google Play.

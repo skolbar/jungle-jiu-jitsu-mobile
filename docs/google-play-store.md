@@ -10,9 +10,12 @@ Use sempre o arquivo `.aab` gerado pelo perfil EAS `production`.
 - Pacote Android: `com.skolbar.junglejiujitsu`
 - Tipo de build: `app-bundle`
 - Distribuicao: `store`
-- AAB atual: `builds/jungle-jiu-jitsu-1.0.0-code3.aab`
-- Link EAS: `https://expo.dev/artifacts/eas/jr9uwAkcAw1gtF6XcGN8KA.aab`
-- Version code: `3`
+- AAB atual: `builds/jungle-jiu-jitsu-1.0.0-code4.aab`
+- Link EAS: `https://expo.dev/artifacts/eas/65LAgewsVCz91WqwHLKjQx.aab`
+- Version code: `4`
+- Politica de privacidade: `https://v0-jiu-jitsu-mvp.vercel.app/politica-de-privacidade`
+
+O version code 4 substitui o code 3 e inclui acesso a politica de privacidade e a solicitacao de exclusao de conta dentro do aplicativo.
 
 ## Antes De Criar O App
 

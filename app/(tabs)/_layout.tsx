@@ -68,6 +68,15 @@ export default function TabLayout() {
         }}
       />
       <Tabs.Screen
+        name="partners"
+        options={{
+          title: 'Parceiros',
+          tabBarIcon: ({ color }) => (
+            <Text style={{ color, fontSize: 20, fontWeight: '800' }}>P</Text>
+          ),
+        }}
+      />
+      <Tabs.Screen
         name="profile"
         options={{
           title: 'Perfil',

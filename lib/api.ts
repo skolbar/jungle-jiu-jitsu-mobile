@@ -1,5 +1,5 @@
 import { supabase } from './supabase';
-import type { Announcement, Belt, CheckIn, CheckInStatus, Content, Profile, Role } from './types';
+import type { Announcement, Belt, CheckIn, CheckInStatus, Content, Partner, Profile, Role } from './types';
 
 const DEFAULT_WEB_API_URL = 'https://v0-jiu-jitsu-mvp.vercel.app';
 
@@ -173,4 +173,22 @@ export function lockStudentBelt(belt: Belt, degree: number) {
     method: 'PATCH',
     body: { belt, degree },
   });
+}
+
+export function fetchPartners() {
+  return apiRequest<Partner[]>('/api/partners');
+}
+
+export type PartnerPayload = Omit<Partner, 'id' | 'created_at' | 'updated_at'>;
+
+export function createPartner(payload: PartnerPayload) {
+  return apiRequest<Partner>('/api/partners', { method: 'POST', body: payload });
+}
+
+export function updatePartner(partnerId: string, payload: PartnerPayload) {
+  return apiRequest<Partner>(`/api/partners/${partnerId}`, { method: 'PATCH', body: payload });
+}
+
+export function deletePartner(partnerId: string) {
+  return apiRequest<{ success: boolean }>(`/api/partners/${partnerId}`, { method: 'DELETE' });
 }

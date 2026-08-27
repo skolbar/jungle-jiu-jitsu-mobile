@@ -179,7 +179,7 @@ export function fetchPartners() {
   return apiRequest<Partner[]>('/api/partners');
 }
 
-export type PartnerPayload = Omit<Partner, 'id' | 'created_at' | 'updated_at'>;
+export type PartnerPayload = Pick<Partner, 'image_url' | 'caption' | 'is_featured' | 'is_active' | 'display_order'>;
 
 export function createPartner(payload: PartnerPayload) {
   return apiRequest<Partner>('/api/partners', { method: 'POST', body: payload });

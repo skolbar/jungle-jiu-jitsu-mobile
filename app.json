@@ -12,6 +12,7 @@
     },
     "android": {
       "package": "com.skolbar.junglejiujitsu",
+      "softwareKeyboardLayoutMode": "resize",
       "blockedPermissions": [
         "android.permission.RECORD_AUDIO"
       ],

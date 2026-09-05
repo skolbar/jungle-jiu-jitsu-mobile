@@ -1,10 +1,11 @@
 import { Redirect } from 'expo-router';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
   Platform,
   Pressable,
+  ScrollView,
   StyleSheet,
   TextInput,
 } from 'react-native';
@@ -18,6 +19,7 @@ export default function LoginScreen() {
   const [localError, setLocalError] = useState<string | null>(null);
   const [password, setPassword] = useState('');
   const [submitting, setSubmitting] = useState(false);
+  const scrollViewRef = useRef<ScrollView>(null);
 
   if (session) {
     return <Redirect href="/" />;
@@ -40,10 +42,21 @@ export default function LoginScreen() {
     setSubmitting(false);
   }
 
+  function revealForm() {
+    setTimeout(() => {
+      scrollViewRef.current?.scrollToEnd({ animated: true });
+    }, 180);
+  }
+
   return (
     <KeyboardAvoidingView
-      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
       style={styles.keyboard}>
+      <ScrollView
+        ref={scrollViewRef}
+        contentContainerStyle={styles.scrollContent}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}>
       <View style={styles.container}>
         <View style={styles.card}>
           <View style={styles.logo}>
@@ -68,6 +81,7 @@ export default function LoginScreen() {
               inputMode="email"
               keyboardType="email-address"
               onChangeText={setEmail}
+              onFocus={revealForm}
               placeholder="seu@email.com"
               placeholderTextColor="#9CA3AF"
               style={styles.input}
@@ -81,6 +95,7 @@ export default function LoginScreen() {
               autoCapitalize="none"
               editable={!submitting}
               onChangeText={setPassword}
+              onFocus={revealForm}
               placeholder="Sua senha"
               placeholderTextColor="#9CA3AF"
               secureTextEntry
@@ -104,6 +119,7 @@ export default function LoginScreen() {
           </Pressable>
         </View>
       </View>
+      </ScrollView>
     </KeyboardAvoidingView>
   );
 }
@@ -111,11 +127,16 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   keyboard: {
     flex: 1,
+    backgroundColor: '#111111',
+  },
+  scrollContent: {
+    flexGrow: 1,
   },
   container: {
-    flex: 1,
+    flexGrow: 1,
     justifyContent: 'center',
     paddingHorizontal: 24,
+    paddingVertical: 32,
   },
   card: {
     gap: 18,
